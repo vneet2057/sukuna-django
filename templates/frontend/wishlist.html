@@ -1,0 +1,39 @@
+<!-- wishlist.html -->
+{% extends 'frontend/layout/main.html' %}
+
+{% block title %}My Wishlist{% endblock %}
+
+{% block content %}
+    <h1>My Wishlist</h1>
+
+    {% if user.is_authenticated %}
+        {% if wishlists %}
+            <div class="row">
+                {% for item in wishlists %}
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+
+                           {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ product.title }}"
+                        style="height: 40vh; object-fit: cover;">
+                    {% else %}
+                    <img src="https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                        class="card-img-top" alt="Default Image" style="height: 40vh; object-fit: cover;">
+                    {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text"><strong>Price:</strong> NPR {{ item.product.price }}</p>
+                                <a href="/product/{{item.product.id}}" class="btn btn-primary">View Product</a>
+                                <a href="/remove-from-wishlist/{{item.id}}" class="btn btn-primary">Remove Product</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Your wishlist is empty.</p>
+        {% endif %}
+    {% else %}
+        <p>Please <a href="/login/">log in</a> to view your wishlist.</p>
+    {% endif %}
+{% endblock %}
